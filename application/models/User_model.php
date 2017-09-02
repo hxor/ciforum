@@ -16,6 +16,10 @@ class User_model extends CI_Model {
 				->row();
 	}
 
+	public function getModerator(){
+		return $this->db->where('role', 'moderator')->get($this->table)->result();
+	}
+
 	public function getProfile($id){
 		return $this->db->where('user_id', $id)
 				->get('user_profile')

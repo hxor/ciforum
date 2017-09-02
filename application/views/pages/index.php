@@ -115,52 +115,31 @@
                                         <th>#</th>
                                         <th>Room</th>
                                         <th>Topics</th>
-                                        <th>Last Post</th>
+                                        <th></th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <th scope="row">1</th>
-                                        <td>
-                                            <a href="room.html"><b>Rulles And FAQ</b></a>
-                                            <p>
-                                                Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                            </p>
-                                        </td>
-                                        <td>9</td>
-                                        <td>
-                                            Yesterday 02:20:21
-                                            <p>by dracOslinux</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>
-                                            <b>Rulles And FAQ</b>
-                                            <p>
-                                                Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                            </p>
-                                        </td>
-                                        <td>9</td>
-                                        <td>
-                                            Yesterday 02:20:21
-                                            <p>by dracOslinux</p>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>
-                                            <b>Rulles And FAQ</b>
-                                            <p>
-                                                Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                            </p>
-                                        </td>
-                                        <td>9</td>
-                                        <td>
-                                            Yesterday 02:20:21
-                                            <p>by dracOslinux</p>
-                                        </td>
-                                    </tr>
+                                    <?php 
+                                        $forum = $this->load->model('Forum_model', 'forum');
+                                        $forum_general = $this->forum->get_forum_where($general_forum->id)->result();
+                                        $no = 1;
+                                        foreach($forum_general as $data): 
+                                    ?>
+                                        <tr>
+                                            <th scope="row"><?= $no++ ?></th>
+                                            <td>
+                                                <a href="room.html"><b><?= $data->forum ?></b></a>
+                                                <p>
+                                                    <?= $data->description ?>
+                                                </p>
+                                            </td>
+                                            <td>9</td>
+                                            <td>
+                                                <?= time_convert($data->created_at) ?>
+                                                <p>by <?= $data->name ?></p>
+                                            </td>
+                                        </tr>
+                                    <?php endforeach; ?>
                                 </tbody>
                             </table>
                         </div>
@@ -178,52 +157,31 @@
                                             <th>#</th>
                                             <th>Room</th>
                                             <th>Topics</th>
-                                            <th>Last Post</th>
+                                            <th></th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <th scope="row">1</th>
-                                            <td>
-                                                <a href="room.html"><b>Rulles And FAQ</b></a>
-                                                <p>
-                                                    Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                                </p>
-                                            </td>
-                                            <td>9</td>
-                                            <td>
-                                                Yesterday 02:20:21
-                                                <p>by dracOslinux</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">2</th>
-                                            <td>
-                                                <b>Rulles And FAQ</b>
-                                                <p>
-                                                    Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                                </p>
-                                            </td>
-                                            <td>9</td>
-                                            <td>
-                                                Yesterday 02:20:21
-                                                <p>by dracOslinux</p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th scope="row">3</th>
-                                            <td>
-                                                <b>Rulles And FAQ</b>
-                                                <p>
-                                                    Berisi peraturan-peraturan mendasar beserta cara-cara menggunakan forum ini
-                                                </p>
-                                            </td>
-                                            <td>9</td>
-                                            <td>
-                                                Yesterday 02:20:21
-                                                <p>by dracOslinux</p>
-                                            </td>
-                                        </tr>
+                                        <?php 
+                                            $this->load->model('Forum_model', 'forum');
+                                            $forum_list = $this->forum->get_forum_where($forum->id)->result();
+                                            $no = 1;
+                                            foreach($forum_list as $data): 
+                                        ?>
+                                            <tr>
+                                                <th scope="row"><?= $no++ ?></th>
+                                                <td>
+                                                    <a href="room.html"><b><?= $data->forum ?></b></a>
+                                                    <p>
+                                                        <?= $data->description ?>
+                                                    </p>
+                                                </td>
+                                                <td>9</td>
+                                                <td>
+                                                    <?= time_convert($data->created_at) ?>
+                                                    <p>by <?= $data->name ?></p>
+                                                </td>
+                                            </tr>
+                                        <?php endforeach; ?>
                                     </tbody>
                                 </table>
                             </div>

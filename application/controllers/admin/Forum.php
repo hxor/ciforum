@@ -7,6 +7,7 @@ class Forum extends CI_Controller {
 		parent::__construct();
 		$login = $this->session->userdata();
 		$this->load->model('Forum_model', 'forum');
+		$this->load->model('User_model', 'user');
 		if ($login['login'] == true) {
 			if ($login['role'] == 'admin') {
 				return;
@@ -29,7 +30,7 @@ class Forum extends CI_Controller {
 		$this->load->view('layout/admin/app', compact('main_view', 'categories'));
 	}
 
-	public function create_category(){
+	public function category_create(){
 		// Checking if the request post or get
 		if (!$_POST) {
 			$input = (object) $this->forum->getCategoryDefaultValue();
@@ -40,7 +41,7 @@ class Forum extends CI_Controller {
 		// If Validate = false, go to form view
 		if (!$this->forum->validateCategory()) {
 			$main_view = 'pages/admin/forum/category_form';
-			$form_action = 'admin/forum/create_category';
+			$form_action = 'admin/forum/category_create';
 			$this->load->view('layout/admin/app', compact('main_view', 'form_action', 'input'));
 			return ;
 		}
@@ -79,6 +80,41 @@ class Forum extends CI_Controller {
 
 		$this->forum->delete_category($id);
 		redirect('admin/forum/forum_category');
+	}
+
+	public function forum(){
+		$main_view = 'pages/admin/forum/forum';
+		$forum = $this->forum->get_forum()->result();
+		// echo var_dump($forum);
+		$this->load->view('layout/admin/app', compact('main_view', 'forum'));
+	}
+
+	public function forum_create(){
+		if (!$_POST) {
+			$input = (object) $this->forum->getForumDefaultValue();
+		} else {
+			$input = (object) $this->input->post();
+		}
+
+		if (!$this->forum->validateForum()) {
+			$main_view = 'pages/admin/forum/forum_form';
+			$form_action = 'admin/forum/forum_create';
+			$forum_category[''] = ' - Pilih Category Forum -';
+			foreach ($this->forum->get_forum_categories() as $data) {
+				$forum_category[$data->id] = $data->category;
+			}
+			$moderator[''] = ' - Moderator - ';
+			foreach ($this->user->getModerator() as $data) {
+				$moderator[$data->id] = $data->name;
+			}
+			$this->load->view('layout/admin/app', compact('main_view', 'form_action', 'input', 'forum_category', 'moderator'));
+			return ;
+		}
+
+		// else
+		$this->forum->create_forum($input);
+		redirect('admin/forum/forum');
+
 	}
 
 }

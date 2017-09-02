@@ -34,28 +34,32 @@
         <div class="col-sm-12">
             <div class="card-box table-responsive">
                 <h4 class="m-t-0 header-title"><b>Default Example</b>
-                <?= anchor('admin/forum/category_create', 'Add Category', ['class' => 'btn btn-success pull-right']); ?></h4>
+                <?= anchor('admin/forum/forum_create', 'Add Forum', ['class' => 'btn btn-success pull-right']); ?></h4>
                 <hr>
                 <table id="datatable" class="table table-striped table-bordered">
                     <thead>
                     <tr>
                         <th>ID</th>
+                        <th>Forum</th>
                         <th>Category</th>
+                        <th>Moderator</th>
                         <th>Action</th>
                     </tr>
                     </thead>
 
 
                     <tbody>
-                        <?php foreach ($categories as $category):?>
+                        <?php foreach ($forum as $data):?>
                             <tr>
-                                <td><?= $category->id ?></td>
-                                <td><?= ucwords($category->category) ?></td>
+                                <td><?= $data->id ?></td>
+                                <td><?= ucwords($data->forum) ?></td>
+                                <td><?= ucwords($data->category) ?></td>
+                                <td><?= ucwords($data->name) ?></td>
                                 <td>
                                     <?= form_open('admin/forum/category_delete/'); ?>
-                                        <?= form_hidden('id', $category->id); ?>
+                                        <?= form_hidden('id', $data->id); ?>
                                         <a href="#" class="btn btn-info btn-xs">Show</a>
-                                    <a href="<?= base_url('/admin/forum/category_edit/' . $category->id) ?>" class="btn btn-warning btn-xs">Edit</a>
+                                    <a href="<?= base_url('/admin/forum/category_edit/' . $data->id) ?>" class="btn btn-warning btn-xs">Edit</a>
                                         <?= form_button(['type' => 'submit', 'content' => 'Delete', 'class' => 'btn btn-xs btn-danger js-submit-confirm']) ?>
                                     <?= form_close() ?>
                                 </td>

@@ -16,6 +16,19 @@ class Forum_model extends CI_Model {
 		return $this->db->get('forum_category')->result();
 	}
 
+	public function get_forum(){
+		return $this->db->select('*')->from('forum')
+		->join('forum_category', 'forum_category.id = forum.forcat_id')
+		->join('users', 'users.id = forum.moderator')->get();
+	}
+
+	public function get_forum_where($forumid){
+		return $this->db->select('*')->from('forum')
+		->join('forum_category', 'forum_category.id = forum.forcat_id')
+		->join('users', 'users.id = forum.moderator')
+		->where('forcat_id', $forumid)->get();
+	}
+
 	// give default value to the form
 	public function getCategoryDefaultValue() {
 		return [
@@ -71,6 +84,56 @@ class Forum_model extends CI_Model {
 
 	public function getCategoryForum(){
 		return $this->db->not_like('slug', 'general-forum')->get('forum_category')->result();
+	}
+
+
+	public function getForumDefaultValue() {
+		return [
+			'forcat_id' => '',
+			'moderator' => 1, 
+			'slug' => '',
+			'forum' => '', 
+			'description' => '',
+			'is_active' => 1,
+		];
+	}
+
+	public function getForumValidationRules() {
+		return [
+			[
+				'field' => 'forcat_id',
+				'label' => 'Forum Category',
+				'rules' => 'trim|required'
+			],[
+				'field' => 'moderator',
+				'label' => 'Moderator',
+				'rules' => 'trim|required'
+			],[
+				'field' => 'slug',
+				'label' => 'Slug',
+				'rules' => 'trim|required'
+			],[
+				'field' => 'forum',
+				'label' => 'Forum',
+				'rules' => 'trim|required'
+			],[
+				'field' => 'description',
+				'label' => 'Description',
+				'rules' => 'trim|required'
+			]
+		];
+	}
+
+	public function validateForum() {
+		$rules = $this->getForumValidationRules();
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_error_delimiters('<small class="text-danger">','</small>');
+		return $this->form_validation->run();
+	}
+
+	public function create_forum($data) {
+		$this->db->insert('forum', $data);
+		return $this->db->insert_id();
 	}
 
 }
