@@ -1,0 +1,11 @@
+.wrapper {
+    padding-top: 78px;
+}
+
+.forum-date {
+    color: white;
+    font-family: "Source Sans Pro", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    width: 83px;
+    margin-top: 5px;
+    margin-bottom: 5px;
+}
